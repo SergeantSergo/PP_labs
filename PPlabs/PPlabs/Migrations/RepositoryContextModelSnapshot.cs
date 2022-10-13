@@ -184,15 +184,15 @@ namespace PPlabs.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("206a62db-7385-48ee-8c79-1f57afe50942"),
-                            IDSklad = new Guid("a06e61de-a0c2-4c92-b20a-4935c1170c41"),
+                            Id = new Guid("32c42546-e635-427e-b0a7-d163ef0be1ce"),
+                            IDSklad = new Guid("b8979e9e-3d04-4bee-b8b7-d95ae1bad517"),
                             Kolvo = 120,
                             NameProduct = "Burger"
                         },
                         new
                         {
-                            Id = new Guid("db014f14-0e9c-4104-b4cb-e3705e26f492"),
-                            IDSklad = new Guid("95d88295-5d26-435f-8442-9bd52460f09a"),
+                            Id = new Guid("a6c8915e-404c-4b15-b66b-e40c646bd498"),
+                            IDSklad = new Guid("c64a0026-d3a0-4a15-8156-5e1f0b2371e6"),
                             Kolvo = 20,
                             NameProduct = "fish"
                         });
@@ -217,12 +217,12 @@ namespace PPlabs.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("44f561aa-5430-4cc8-b682-90584164fa95"),
+                            Id = new Guid("ebbb4bd5-e24d-4290-b9ef-e31c559e7d0a"),
                             SkladName = "UDyadiVani"
                         },
                         new
                         {
-                            Id = new Guid("7264641d-23a5-4057-b342-1e69c09a120c"),
+                            Id = new Guid("0252abb1-ae14-4b57-b357-f2f687023a94"),
                             SkladName = "Octavia"
                         });
                 });

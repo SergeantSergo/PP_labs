@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PPlabs.Migrations
 {
-    public partial class DatabaseCreation : Migration
+    public partial class InitialData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -105,8 +105,8 @@ namespace PPlabs.Migrations
                 columns: new[] { "ProductId", "IDSklad", "Kolvo", "NameProduct" },
                 values: new object[,]
                 {
-                    { new Guid("15b7d544-1898-4b1a-902f-ff7928fce19e"), new Guid("ec0d2aa2-6b80-4d44-91b7-53a653a612d5"), 120, "Burger" },
-                    { new Guid("992b55a4-46c9-4f28-b60b-549e13386fda"), new Guid("9d4546a3-7fb6-4aef-a80d-83f9eec5a4ad"), 20, "fish" }
+                    { new Guid("32c42546-e635-427e-b0a7-d163ef0be1ce"), new Guid("b8979e9e-3d04-4bee-b8b7-d95ae1bad517"), 120, "Burger" },
+                    { new Guid("a6c8915e-404c-4b15-b66b-e40c646bd498"), new Guid("c64a0026-d3a0-4a15-8156-5e1f0b2371e6"), 20, "fish" }
                 });
 
             migrationBuilder.InsertData(
@@ -114,8 +114,8 @@ namespace PPlabs.Migrations
                 columns: new[] { "SkaldId", "SkladName" },
                 values: new object[,]
                 {
-                    { new Guid("b6f1aef0-ebf1-4ed3-9b9b-6951d4aec92e"), "UDyadiVani" },
-                    { new Guid("e8b8ab78-0822-403c-a39f-3e34de692b3f"), "Octavia" }
+                    { new Guid("0252abb1-ae14-4b57-b357-f2f687023a94"), "Octavia" },
+                    { new Guid("ebbb4bd5-e24d-4290-b9ef-e31c559e7d0a"), "UDyadiVani" }
                 });
 
             migrationBuilder.InsertData(
