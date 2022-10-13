@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace PPlabs.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20221008165857_InitialData")]
-    partial class InitialData
+    [Migration("20221013154839_DatabaseCreation")]
+    partial class DatabaseCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -119,6 +119,113 @@ namespace PPlabs.Migrations
                             CompanyId = new Guid("3d490a70-94ce-4d15-9494-5248280c2ce3"),
                             Name = "Kane Miller",
                             Position = "Administrator"
+                        });
+                });
+
+            modelBuilder.Entity("Entities.Models.Plan", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("PlanId");
+
+                    b.Property<long>("Date")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Kolvo")
+                        .HasMaxLength(60)
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("Product")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Sklad1")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Sklad2")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Plans");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("407f07d3-7d13-4c04-9c69-50aac805def0"),
+                            Date = 1662757200L,
+                            Kolvo = 15,
+                            Product = new Guid("407f07d3-7d13-4c04-9c69-50aac805def3"),
+                            Sklad1 = new Guid("407f07d3-7d13-4c04-9c69-50aac805def1"),
+                            Sklad2 = new Guid("407f07d3-7d13-4c04-9c69-50aac805def2")
+                        });
+                });
+
+            modelBuilder.Entity("Entities.Models.Product", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("ProductId");
+
+                    b.Property<Guid>("IDSklad")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Kolvo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NameProduct")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("15b7d544-1898-4b1a-902f-ff7928fce19e"),
+                            IDSklad = new Guid("ec0d2aa2-6b80-4d44-91b7-53a653a612d5"),
+                            Kolvo = 120,
+                            NameProduct = "Burger"
+                        },
+                        new
+                        {
+                            Id = new Guid("992b55a4-46c9-4f28-b60b-549e13386fda"),
+                            IDSklad = new Guid("9d4546a3-7fb6-4aef-a80d-83f9eec5a4ad"),
+                            Kolvo = 20,
+                            NameProduct = "fish"
+                        });
+                });
+
+            modelBuilder.Entity("Entities.Models.Sklad", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("SkaldId");
+
+                    b.Property<string>("SkladName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sklads");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("b6f1aef0-ebf1-4ed3-9b9b-6951d4aec92e"),
+                            SkladName = "UDyadiVani"
+                        },
+                        new
+                        {
+                            Id = new Guid("e8b8ab78-0822-403c-a39f-3e34de692b3f"),
+                            SkladName = "Octavia"
                         });
                 });
 

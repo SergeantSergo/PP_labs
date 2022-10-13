@@ -120,6 +120,113 @@ namespace PPlabs.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Entities.Models.Plan", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("PlanId");
+
+                    b.Property<long>("Date")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Kolvo")
+                        .HasMaxLength(60)
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("Product")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Sklad1")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Sklad2")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Plans");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("407f07d3-7d13-4c04-9c69-50aac805def0"),
+                            Date = 1662757200L,
+                            Kolvo = 15,
+                            Product = new Guid("407f07d3-7d13-4c04-9c69-50aac805def3"),
+                            Sklad1 = new Guid("407f07d3-7d13-4c04-9c69-50aac805def1"),
+                            Sklad2 = new Guid("407f07d3-7d13-4c04-9c69-50aac805def2")
+                        });
+                });
+
+            modelBuilder.Entity("Entities.Models.Product", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("ProductId");
+
+                    b.Property<Guid>("IDSklad")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Kolvo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NameProduct")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("206a62db-7385-48ee-8c79-1f57afe50942"),
+                            IDSklad = new Guid("a06e61de-a0c2-4c92-b20a-4935c1170c41"),
+                            Kolvo = 120,
+                            NameProduct = "Burger"
+                        },
+                        new
+                        {
+                            Id = new Guid("db014f14-0e9c-4104-b4cb-e3705e26f492"),
+                            IDSklad = new Guid("95d88295-5d26-435f-8442-9bd52460f09a"),
+                            Kolvo = 20,
+                            NameProduct = "fish"
+                        });
+                });
+
+            modelBuilder.Entity("Entities.Models.Sklad", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("SkaldId");
+
+                    b.Property<string>("SkladName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sklads");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("44f561aa-5430-4cc8-b682-90584164fa95"),
+                            SkladName = "UDyadiVani"
+                        },
+                        new
+                        {
+                            Id = new Guid("7264641d-23a5-4057-b342-1e69c09a120c"),
+                            SkladName = "Octavia"
+                        });
+                });
+
             modelBuilder.Entity("Entities.Models.Employee", b =>
                 {
                     b.HasOne("Entities.Models.Company", "Company")
