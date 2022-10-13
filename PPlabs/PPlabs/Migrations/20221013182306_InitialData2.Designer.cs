@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace PPlabs.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20221013180642_InitialData")]
-    partial class InitialData
+    [Migration("20221013182306_InitialData2")]
+    partial class InitialData2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -186,15 +186,15 @@ namespace PPlabs.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("32c42546-e635-427e-b0a7-d163ef0be1ce"),
-                            IDSklad = new Guid("b8979e9e-3d04-4bee-b8b7-d95ae1bad517"),
+                            Id = new Guid("bd679046-ed00-44e5-9ab0-bf98d0c71056"),
+                            IDSklad = new Guid("b0e0849d-d9bf-47f5-b467-7b2793bd293a"),
                             Kolvo = 120,
                             NameProduct = "Burger"
                         },
                         new
                         {
-                            Id = new Guid("a6c8915e-404c-4b15-b66b-e40c646bd498"),
-                            IDSklad = new Guid("c64a0026-d3a0-4a15-8156-5e1f0b2371e6"),
+                            Id = new Guid("e0fc04d4-98a7-420d-a3d7-5b05caa3dedb"),
+                            IDSklad = new Guid("064f2837-99e7-47f5-985a-81a5b40a5f5a"),
                             Kolvo = 20,
                             NameProduct = "fish"
                         });
@@ -219,12 +219,12 @@ namespace PPlabs.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ebbb4bd5-e24d-4290-b9ef-e31c559e7d0a"),
+                            Id = new Guid("0834ed03-257b-40f8-95fb-4ae41921dc52"),
                             SkladName = "UDyadiVani"
                         },
                         new
                         {
-                            Id = new Guid("0252abb1-ae14-4b57-b357-f2f687023a94"),
+                            Id = new Guid("1e24ab27-dc50-4487-8374-ac6db8dc841e"),
                             SkladName = "Octavia"
                         });
                 });

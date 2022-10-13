@@ -105,8 +105,8 @@ namespace PPlabs.Migrations
                 columns: new[] { "ProductId", "IDSklad", "Kolvo", "NameProduct" },
                 values: new object[,]
                 {
-                    { new Guid("32c42546-e635-427e-b0a7-d163ef0be1ce"), new Guid("b8979e9e-3d04-4bee-b8b7-d95ae1bad517"), 120, "Burger" },
-                    { new Guid("a6c8915e-404c-4b15-b66b-e40c646bd498"), new Guid("c64a0026-d3a0-4a15-8156-5e1f0b2371e6"), 20, "fish" }
+                    { new Guid("6a3eb9e6-2854-4de3-ba98-1ccf47cd5ced"), new Guid("c5ace05c-da20-4dca-b670-e9f668955b17"), 120, "Burger" },
+                    { new Guid("ebe02987-9620-4c57-8804-5d92507a3cbf"), new Guid("6fbe9236-2e40-4c3f-878c-052a2c31aaac"), 20, "fish" }
                 });
 
             migrationBuilder.InsertData(
@@ -114,8 +114,8 @@ namespace PPlabs.Migrations
                 columns: new[] { "SkaldId", "SkladName" },
                 values: new object[,]
                 {
-                    { new Guid("0252abb1-ae14-4b57-b357-f2f687023a94"), "Octavia" },
-                    { new Guid("ebbb4bd5-e24d-4290-b9ef-e31c559e7d0a"), "UDyadiVani" }
+                    { new Guid("97f1f36a-67e0-4162-a9f3-fd6df37be3d1"), "UDyadiVani" },
+                    { new Guid("f337efbf-a607-4957-9253-7e04b6b1b8df"), "Octavia" }
                 });
 
             migrationBuilder.InsertData(

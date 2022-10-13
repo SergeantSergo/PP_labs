@@ -23,7 +23,7 @@ namespace lrs.Controllers
             _repository.Product.AnyMethodFromProductRepository();
             return new string[] { "value1", "value2" };
 
-            var a = DateTime.Now.ToLongDateString;
+           // var a = DateTime.Now.ToLongDateString;
         }
     }
 }
