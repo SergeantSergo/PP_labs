@@ -16,7 +16,7 @@ namespace lrs.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            _repository.Company.AnyMethodFromCompanyRepository();
+            //_repository.Company.AnyMethodFromCompanyRepository();
             _repository.Employee.AnyMethodFromEmployeeRepository();
             _repository.Plan.AnyMethodFromPlanRepository();
             _repository.Sklad.AnyMethodFromSkladRepository();

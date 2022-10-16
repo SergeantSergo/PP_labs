@@ -1,6 +1,7 @@
-﻿using PPlabs.Extensions;
+﻿        using PPlabs.Extensions;
 using NLog;
 using Microsoft.AspNetCore.HttpOverrides;
+using Contracts;
 
 public class Startup
 {
@@ -16,6 +17,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.ConfigureCors();
+        services.AddAutoMapper(typeof(Startup));
         services.ConfigureIISIntegration();
         //services.ConfigureLoggerService();
         services.ConfigureSqlContext(Configuration);
@@ -26,7 +28,7 @@ public class Startup
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerManager logger)
     {
         if (env.IsDevelopment())
         {
@@ -34,7 +36,7 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
+        app.ConfigureExceptionHandler(logger);
         app.UseHttpsRedirection();
         app.UseHsts();
         app.UseStaticFiles();

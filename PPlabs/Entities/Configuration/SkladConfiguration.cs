@@ -17,13 +17,13 @@ namespace Entities.Configuration
             (
             new Sklad
             {
-                Id = Guid.NewGuid(),
+                Id = new Guid("31BA897C-AEC8-4A9B-A95D-11AF407B821C"),
                 SkladName = "UDyadiVani",
                 
             },
             new Sklad
             {
-                Id = Guid.NewGuid(),
+                Id = new Guid("3AE0C0FD-5F60-4CE6-B33A-BA58AB5A63EB"),
                 SkladName = "Octavia",
 
             }
