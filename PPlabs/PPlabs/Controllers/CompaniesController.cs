@@ -18,23 +18,16 @@ namespace PPlabs.Controllers
         {
             _repository = repository;
             _logger = logger;
-            mapper = mapper;
+            _mapper = mapper;
         }
         [HttpGet]
         public IActionResult GetCompanies()
         {
-            
                 var companies = _repository.Company.GetAllCompanies(trackChanges: false);
-                //var companiesDto = companies.Select(c => new CompanyDto
-                //{
-                //    Id = c.Id,
-                //    Name = c.Name,
-                //    FullAddress = string.Join(' ', c.Address, c.Country)
-                //}).ToList();
                 var companiesDto = _mapper.Map<IEnumerable<CompanyDto>>(companies);
+
                 return Ok(companiesDto);
-            
-            
+
         }
     }
 }

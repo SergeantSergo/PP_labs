@@ -17,18 +17,18 @@ namespace Entities.Configuration
             (
             new Product
             {
-                Id = new Guid("FA533662-E939-4F53-AA8B-5DB416FCF3C1"),
+                Id = new Guid("231442f9-3ac9-4431-914c-6954adef1779"),
                 NameProduct = "Burger",
                 Kolvo = 120,
-                IDSklad = new Guid("31BA897C-AEC8-4A9B-A95D-11AF407B821C"),
+                IDSklad = new Guid("596ed4b0-e6ec-4165-9159-29c9e134a277"),
 
             },
             new Product
             {
-                Id = new Guid("4C09DD5D-15D6-4C3C-9CBF-C810B496AA0E"),
+                Id = new Guid("6ad5696d-aaf8-4be3-95ff-4590d7b55133"),
                 NameProduct = "fish",
                 Kolvo = 20,
-                IDSklad = new Guid("3AE0C0FD-5F60-4CE6-B33A-BA58AB5A63EB"),
+                IDSklad = new Guid("1278a0ea-941f-4b7a-b3e8-d2e9ab900407"),
 
             }
         );
