@@ -9,6 +9,6 @@ namespace Contracts
 {
     public interface IEmployeeRepository
     {
-        void AnyMethodFromEmployeeRepository();
+        IEnumerable<Employee> GetAllEmployees(bool trackChanges);
     }
 }

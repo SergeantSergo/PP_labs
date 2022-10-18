@@ -16,9 +16,8 @@ namespace Repository
         {
         }
 
-        public void AnyMethodFromPlanRepository()
-        {
-            throw new NotImplementedException();
-        }
+        public IEnumerable<Plan> GetAllPlan(bool trackChanges) => FindAll(trackChanges)
+        .OrderBy(c => c.Id)
+        .ToList();
     }
 }

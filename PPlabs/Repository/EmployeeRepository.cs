@@ -16,9 +16,8 @@ namespace Repository
         {
         }
 
-        public void AnyMethodFromEmployeeRepository()
-        {
-            throw new NotImplementedException();
-        }
+        public IEnumerable<Employee> GetAllEmployees(bool trackChanges) =>FindAll(trackChanges)
+            .OrderBy(c => c.Name)
+            .ToList();
     }
 }

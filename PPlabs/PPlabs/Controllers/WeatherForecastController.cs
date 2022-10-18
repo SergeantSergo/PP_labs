@@ -18,9 +18,9 @@ namespace lrs.Controllers
         {
             //_repository.Company.AnyMethodFromCompanyRepository();
             //_repository.Employee.AnyMethodFromEmployeeRepository();
-            _repository.Plan.AnyMethodFromPlanRepository();
-            _repository.Sklad.AnyMethodFromSkladRepository();
-            _repository.Product.AnyMethodFromProductRepository();
+            //_repository.Plan.AnyMethodFromPlanRepository();
+           // _repository.Sklad.AnyMethodFromSkladRepository();
+           // _repository.Product.AnyMethodFromProductRepository();
             return new string[] { "value1", "value2" };
 
            // var a = DateTime.Now.ToLongDateString;

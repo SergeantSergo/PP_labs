@@ -16,9 +16,8 @@ namespace Repository
         {
         }
 
-        public void AnyMethodFromProductRepository()
-        {
-            throw new NotImplementedException();
-        }
+        public IEnumerable<Product> GetAllProduct(bool trackChanges) => FindAll(trackChanges)
+        .OrderBy(c => c.NameProduct)
+        .ToList();
     }
 }

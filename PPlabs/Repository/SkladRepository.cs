@@ -16,9 +16,8 @@ namespace Repository
         {
         }
 
-        public void AnyMethodFromSkladRepository()
-        {
-            throw new NotImplementedException();
-        }
+        public IEnumerable<Sklad> GetAllSklad(bool trackChanges) => FindAll(trackChanges)
+        .OrderBy(c => c.SkladName)
+        .ToList();
     }
 }
