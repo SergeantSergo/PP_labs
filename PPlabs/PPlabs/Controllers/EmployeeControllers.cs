@@ -8,7 +8,7 @@ using static System.Collections.Specialized.BitVector32;
 
 namespace PPlabs.Controllers
 {
-    [Route("api/empoloyee")]
+    [Route("api/companies/{companyId}/employees")]
     [ApiController]
     public class EmployeeController : ControllerBase
     {
@@ -22,17 +22,17 @@ namespace PPlabs.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public IActionResult GetEmployees()
+        public IActionResult GetEmployeesForCompany(Guid companyId)
         {
-            var employees = _repository.Employee.GetAllEmployees(false);
-            var employeesDto = employees.Select(c => new EmployeeDto
+            var company = _repository.Company.GetCompany(companyId, trackChanges: false);
+            if (company == null)
             {
-                Id = c.Id,
-                Name = c.Name,
-                Age = c.Age,
-                Position = c.Position,
-                CompanyId = c.CompanyId,
-            }).ToList();
+                _logger.LogInfo($"Company with id: {companyId} doesn't exist in the database.");
+
+            return NotFound();
+            }
+            var employeesFromDb = _repository.Employee.GetEmployees(companyId, trackChanges: false);
+            var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesFromDb);
             return Ok(employeesDto);
         }
     }
