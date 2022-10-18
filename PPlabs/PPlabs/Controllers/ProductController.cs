@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PPlabs.Controllers
 {
-    [Route("api/product")]
+    [Route("api/product")] //api
     [ApiController]
     public class ProductController : ControllerBase
     {
