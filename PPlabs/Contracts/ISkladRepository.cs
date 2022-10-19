@@ -9,6 +9,8 @@ namespace Contracts
 {
     public interface ISkladRepository
     {
-        IEnumerable<Sklad> GetAllSklad(bool trackChanges);
+        IEnumerable<Sklad> GetAllSklads(bool trackChanges);
+
+        Sklad GetSklad(Guid skladId, bool trackChanges);
     }
 }

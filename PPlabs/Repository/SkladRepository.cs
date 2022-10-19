@@ -16,8 +16,10 @@ namespace Repository
         {
         }
 
-        public IEnumerable<Sklad> GetAllSklad(bool trackChanges) => FindAll(trackChanges)
+        public IEnumerable<Sklad> GetAllSklads(bool trackChanges) => FindAll(trackChanges)
         .OrderBy(c => c.SkladName)
         .ToList();
+
+        public Sklad GetSklad(Guid skladId, bool trackChanges) => FindByCondition(c => c.Id.Equals(skladId), trackChanges).SingleOrDefault();
     }
 }

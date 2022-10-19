@@ -20,17 +20,33 @@ namespace PPlabs.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public IActionResult GetProduct()
+        public IActionResult GetProducts()
         {
-            var product = _repository.Product.GetAllProduct(false);
-            var productDto = product.Select(c => new ProductDto
+            var products = _repository.Product.GetAllProducts(false);
+            var productsDto = products.Select(c => new ProductDto
             {
                 Id = c.Id,
                 NameProduct = c.NameProduct,
                 Kolvo = c.Kolvo,
                 IDSklad = c.IDSklad,
             }).ToList();
-            return Ok(productDto);
+            return Ok(productsDto);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetProduct(Guid id)
+        {
+            var product = _repository.Product.GetProduct(id, trackChanges: false);
+            if (product == null)
+            {
+                _logger.LogInfo($"Product with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+            else
+            {
+                var productDto = _mapper.Map<ProductDto>(product);
+                return Ok(productDto);
+            }
         }
     }
 }

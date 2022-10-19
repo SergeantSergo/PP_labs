@@ -16,8 +16,10 @@ namespace Repository
         {
         }
 
-        public IEnumerable<Plan> GetAllPlan(bool trackChanges) => FindAll(trackChanges)
+        public IEnumerable<Plan> GetAllPlans(bool trackChanges) => FindAll(trackChanges)
         .OrderBy(c => c.Id)
         .ToList();
+
+        public Plan GetPlan(Guid planId, bool trackChanges) => FindByCondition(c => c.Id.Equals(planId), trackChanges).SingleOrDefault();
     }
 }

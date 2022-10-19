@@ -16,8 +16,10 @@ namespace Repository
         {
         }
 
-        public IEnumerable<Product> GetAllProduct(bool trackChanges) => FindAll(trackChanges)
+        public IEnumerable<Product> GetAllProducts(bool trackChanges) => FindAll(trackChanges)
         .OrderBy(c => c.NameProduct)
         .ToList();
+
+        public Product GetProduct(Guid productId, bool trackChanges) => FindByCondition(c => c.Id.Equals(productId), trackChanges).SingleOrDefault();
     }
 }

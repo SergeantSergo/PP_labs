@@ -20,15 +20,31 @@ namespace PPlabs.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public IActionResult GetSklad()
+        public IActionResult GetSklads()
         {
-            var sklad = _repository.Sklad.GetAllSklad(false);
-            var skladDto = sklad.Select(c => new SkladDto
+            var sklads = _repository.Sklad.GetAllSklads(false);
+            var skladsDto = sklads.Select(c => new SkladDto
             {
                 Id = c.Id,
                 SkladName = c.SkladName,
             }).ToList();
-            return Ok(skladDto);
+            return Ok(skladsDto);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetSklad(Guid id)
+        {
+            var sklad = _repository.Sklad.GetSklad(id, trackChanges: false);
+            if (sklad == null)
+            {
+                _logger.LogInfo($"Sklad with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+            else
+            {
+                var skladDto = _mapper.Map<ProductDto>(sklad);
+                return Ok(skladDto);
+            }
         }
     }
 }
