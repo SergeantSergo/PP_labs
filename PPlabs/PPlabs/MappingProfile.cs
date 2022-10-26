@@ -15,6 +15,9 @@ namespace PPlabs
             CreateMap<Plan, PlanDto>();
             CreateMap<Sklad, SkladDto>();
             CreateMap<Product, ProductDto>();
+
+            CreateMap<CompanyForCreationDto, Company>();
+            CreateMap<EmployeeForCreationDto, Employee>();
         }
     }
 }
