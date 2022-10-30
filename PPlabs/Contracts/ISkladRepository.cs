@@ -12,5 +12,6 @@ namespace Contracts
         IEnumerable<Sklad> GetAllSklads(bool trackChanges);
 
         Sklad GetSklad(Guid skladId, bool trackChanges);
+        void CreateSklad(Sklad sklad);
     }
 }

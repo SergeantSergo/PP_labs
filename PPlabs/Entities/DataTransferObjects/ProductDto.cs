@@ -11,6 +11,6 @@ namespace Entities.DataTransferObjects
         public Guid Id { get; set; }
         public string NameProduct { get; set; }
         public int Kolvo { get; set; }
-        public Guid IDSklad { get; set; }
+        public string IDSklad { get; set; }
     }
 }
