@@ -22,7 +22,7 @@ namespace PPlabs.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetProductForSklad(Guid IDSklad)
+        public IActionResult GetProductsForSklad(Guid IDSklad)
         {
             var sklad = _repository.Sklad.GetSklad(IDSklad, trackChanges: false);
             if (sklad == null)
@@ -36,6 +36,54 @@ namespace PPlabs.Controllers
             //var productsFromDb = _repository.Product.GetProduct(IDSklad,trackChanges: false);
             return Ok(productsFromDb);
         }
+
+        [HttpPost]
+        public IActionResult CreateProductForSklad(Guid IDSklad, [FromBody] ProductForCreationDto product)
+        {
+            if (product == null)
+            {
+                _logger.LogError("ProductForCreationDto object sent from client is null.");
+            return BadRequest("ProductForCreationDto object is null");
+            }
+            var Sklad = _repository.Sklad.GetSklad(IDSklad, trackChanges: false);
+            if (Sklad == null)
+            {
+                _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
+            return NotFound();
+            }
+            var productEntity = _mapper.Map<Product>(product);
+            _repository.Product.CreateProductForSklad(IDSklad, productEntity);
+            _repository.Save();
+            var productToReturn = _mapper.Map<ProductDto>(productEntity);
+            return CreatedAtRoute("GetProductForCompany", new
+            {
+                IDSklad,
+                id = productToReturn.Id
+            }, productToReturn);
+        }
+
+        [HttpGet("{id}", Name = "GetProductForSklad")]
+        public IActionResult GetProductForSklad(Guid IDSklad, Guid id)
+        {
+            var sklad = _repository.Sklad.GetSklad(IDSklad, trackChanges: false);
+            if (sklad == null)
+            {
+                _logger.LogInfo($"Sklad with id: {IDSklad} doesn't exist in the database.");
+                return NotFound();
+            }
+            var productDb = _repository.Product.GetProduct(IDSklad, id,
+           trackChanges:
+            false);
+            if (productDb == null)
+            {
+                _logger.LogInfo($"Product with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+            var product = _mapper.Map<ProductDto>(productDb);
+            return Ok(product);
+        }
+        //не работает
+
 
         //[HttpGet]
         //public IActionResult GetProductForSklad(Guid companyId)
@@ -64,31 +112,27 @@ namespace PPlabs.Controllers
         //    }).ToList();
         //    return Ok(productsDto);
         //}
-        [HttpPost]
-        public IActionResult CreateProductForSklad(Guid IDSklad, [FromBody] ProductForCreationDto product)
-        {
-            if (product == null)
-            {
-                _logger.LogError("ProductForCreationDto object sent from client is null.");
-            return BadRequest("ProductForCreationDto object is null");
-            }
-            var Sklad = _repository.Sklad.GetSklad(IDSklad, trackChanges: false);
-            if (Sklad == null)
-            {
-                _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
-            return NotFound();
-            }
-            var productEntity = _mapper.Map<Product>(product);
-            _repository.Product.CreateProductForSklad(IDSklad, productEntity);
-            _repository.Save();
-            var productToReturn = _mapper.Map<ProductDto>(productEntity);
-            return CreatedAtRoute("GetProductForCompany", new
-            {
-                IDSklad,
-                id = productToReturn.Id
-            }, productToReturn);
-        }
-
+        //[HttpGet("{id}", Name = "GetProductForSklad")]
+        //public IActionResult GetEmployeeForCompany(Guid companyId, Guid id)
+        //{
+        //    var company = _repository.Company.GetCompany(companyId, trackChanges: false);
+        //    if (company == null)
+        //    {
+        //        _logger.LogInfo($"Company with id: {companyId} doesn't exist in the database.");
+        //        return NotFound();
+        //    }
+        //    var employeeDb = _repository.Employee.GetEmployee(companyId, id,
+        //   trackChanges:
+        //    false);
+        //    if (employeeDb == null)
+        //    {
+        //        _logger.LogInfo($"Employee with id: {id} doesn't exist in the database.");
+        //        return NotFound();
+        //    }
+        //    var employee = _mapper.Map<EmployeeDto>(employeeDb);
+        //    return Ok(employee);
+        //}
+        
         //[HttpGet("{id}")]
         //public IActionResult GetProduct(Guid id)
         //{

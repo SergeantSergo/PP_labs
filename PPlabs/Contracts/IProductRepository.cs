@@ -13,7 +13,7 @@ namespace Contracts
         //Product GetProduct(Guid productId, Guid id, bool trackChanges);
 
         //void CreateProduct(Guid IDSklad, Product product);
-        Product GetProduct(Guid productId, bool trackChanges);
+        Product GetProduct(Guid IDSklad, Guid id, bool trackChanges);
         void CreateProductForSklad(Guid IDSklad, Product product);
     }
 }
