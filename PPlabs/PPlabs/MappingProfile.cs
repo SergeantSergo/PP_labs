@@ -21,6 +21,12 @@ namespace PPlabs
             CreateMap<EmployeeForCreationDto, Employee>();
             CreateMap<ProductForCreationDto, Product>();
             CreateMap<SkladForCreationDto, Sklad>();
+
+            CreateMap<EmployeeForUpdateDto, Employee>();
+            CreateMap<CompanyForUpdateDto, Company>();
+
+
+            CreateMap<EmployeeForUpdateDto, Employee>().ReverseMap();
         }
     }
 }

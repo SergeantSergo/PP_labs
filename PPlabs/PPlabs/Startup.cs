@@ -28,7 +28,8 @@ public class Startup
         services.AddSwaggerGen();
         services.AddControllers(config => { config.RespectBrowserAcceptHeader = true;
         config.ReturnHttpNotAcceptable = true;
-        }).AddXmlDataContractSerializerFormatters()
+        }).AddNewtonsoftJson()
+        .AddXmlDataContractSerializerFormatters()
         .AddCustomCSVFormatter();
     }
 
