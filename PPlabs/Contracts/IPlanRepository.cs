@@ -9,8 +9,10 @@ namespace Contracts
 {
     public interface IPlanRepository
     {
-        IEnumerable<Plan> GetAllPlans(bool trackChanges);
+        IEnumerable<Plan> GetPlans(Guid IDSklad, bool trackChanges);
+  
+        Plan GetPlan(Guid planId, Guid id ,bool trackChanges);
+        void CreatePlan(Guid IDSklad, Guid IDSklad2, Guid productId, Plan plan);
 
-        Plan GetPlan(Guid planId, bool trackChanges);
     }
 }

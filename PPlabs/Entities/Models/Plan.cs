@@ -12,11 +12,14 @@ namespace Entities.Models
     {
         [Column("PlanId")]
         public Guid Id { get; set; }
-        
+        [Required]
+        [ForeignKey(nameof(Sklad1))]
         public Guid Sklad1 { get; set; }
-        
+        [Required]
+        [ForeignKey(nameof(Sklad2))]
         public Guid Sklad2 { get; set; }
-        
+        [Required]
+        [ForeignKey(nameof(Product))]
         public Guid Product { get; set; }
         [Required(ErrorMessage = "Company address is a required field.")]
         [MaxLength(60, ErrorMessage = "Maximum length for rhe Address is 60 characte")]

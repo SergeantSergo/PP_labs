@@ -4,6 +4,7 @@ using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace PPlabs.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20221101164004_InitialDatasklad")]
+    partial class InitialDatasklad
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,12 +152,12 @@ namespace PPlabs.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("407f07d3-7d13-4c04-9c69-50aac805def2"),
+                            Id = new Guid("596ed4b0-e6ec-4165-9159-29c9e134a277"),
                             Date = 1662757200L,
                             Kolvo = 15,
                             Product = new Guid("6ad5696d-aaf8-4be3-95ff-4590d7b55133"),
-                            Sklad1 = new Guid("596ed4b0-e6ec-4165-9159-29c9e134a277"),
-                            Sklad2 = new Guid("1278a0ea-941f-4b7a-b3e8-d2e9ab900407")
+                            Sklad1 = new Guid("1278a0ea-941f-4b7a-b3e8-d2e9ab900407"),
+                            Sklad2 = new Guid("407f07d3-7d13-4c04-9c69-50aac805def2")
                         });
                 });
 

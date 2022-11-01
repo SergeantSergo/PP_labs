@@ -43,7 +43,7 @@ namespace PPlabs.Controllers
             }
             else
             {
-                var skladDto = _mapper.Map<ProductDto>(sklad);
+                var skladDto = _mapper.Map<SkladDto>(sklad);
                 return Ok(skladDto);
             }
         }
