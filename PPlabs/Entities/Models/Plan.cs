@@ -25,5 +25,6 @@ namespace Entities.Models
         [MaxLength(60, ErrorMessage = "Maximum length for rhe Address is 60 characte")]
         public int Kolvo { get; set; }
         public long Date { get; set; }
+        //
     }
 }
