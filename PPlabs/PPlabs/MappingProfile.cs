@@ -27,7 +27,7 @@ namespace PPlabs
             CreateMap<ProductForUpdateDto, Product>();
             CreateMap<EmployeeForUpdateDto, Employee>();
             CreateMap<CompanyForUpdateDto, Company>();
-
+            //patch
             CreateMap<PlanForUpdateDto, Plan>().ReverseMap();
             CreateMap<EmployeeForUpdateDto, Employee>().ReverseMap();
         }
