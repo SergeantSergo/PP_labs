@@ -64,6 +64,39 @@ namespace PPlabs.Controllers
             skladToReturn);
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult DeleteSklad(Guid id)
+        {
+            var sklad = _repository.Sklad.GetSklad(id, trackChanges: false);
+            if (sklad == null)
+            {
+                _logger.LogInfo($"Company with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+            _repository.Sklad.DeleteSklad(sklad);
+            _repository.Save();
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateSklad(Guid id, [FromBody] SkladForUpdateDto sklad)
+        {
+            if (sklad == null)
+            {
+                _logger.LogError("SkladForUpdateDto object sent from client is null.");
+                return BadRequest("SkladForUpdateDto object is null");
+            }
+            var skladEntity = _repository.Sklad.GetSklad(id, trackChanges: true);
+            if (skladEntity == null)
+            {
+                _logger.LogInfo($"Sklad with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+            _mapper.Map(sklad, skladEntity);
+            _repository.Save();
+            return NoContent();
+        }
+
         //[HttpGet("{id}", Name = "GetEmployeeForCompany")]
         //public IActionResult GetProductForSklad(Guid companyId, Guid id)
         //{

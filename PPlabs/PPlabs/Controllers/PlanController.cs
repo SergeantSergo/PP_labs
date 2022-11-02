@@ -3,6 +3,7 @@ using Contracts;
 using Entities.DataTransferObjects;
 using Entities.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace PPlabs.Controllers
@@ -58,14 +59,14 @@ namespace PPlabs.Controllers
                 _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
                 return NotFound();
             }
-            var ticketDb = _repository.Plan.GetPlan(productId, id, false);
-            if (ticketDb == null)
+            var planDb = _repository.Plan.GetPlan(productId, id, false);
+            if (planDb == null)
             {
                 _logger.LogInfo($"Ticket with id: {id} doesn't exist in the database.");
                 return NotFound();
             }
-            var ticket = _mapper.Map<PlanDto>(ticketDb);
-            return Ok(ticket);
+            var plan = _mapper.Map<PlanDto>(planDb);
+            return Ok(plan);
         }
 
         [HttpPost]
@@ -106,6 +107,130 @@ namespace PPlabs.Controllers
                 planReturn.Id
             }, planReturn);
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeletePlanForSklad(Guid IDSklad, Guid IDSklad2, Guid productId, Guid id)
+        {
+            var sklad = _repository.Sklad.GetSklad(IDSklad, trackChanges: false);
+            if (sklad == null)
+            {
+                _logger.LogInfo($"Sklad with id: {IDSklad} doesn't exist in the database.");
+                return NotFound();
+            }
+            var sklad2 = _repository.Sklad.GetSklad(IDSklad2, trackChanges: false);
+            if (sklad2 == null)
+            {
+                _logger.LogInfo($"Company with id: {IDSklad2} doesn't exist in the database.");
+                return NotFound();
+            }
+            var product = _repository.Product.GetProducts(productId, trackChanges: false);
+            if (product == null)
+            {
+                _logger.LogInfo($"Company with id: {productId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var planForproduct = _repository.Plan.GetPlan(productId,  id, trackChanges: false);
+            if (planForproduct == null)
+            {
+                _logger.LogInfo($"Plan with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+            _repository.Plan.DeletePlan(planForproduct);
+            _repository.Save();
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdatePlanForProduct(Guid IDSklad, Guid IDSklad2, Guid productId, Guid id, [FromBody] PlanForUpdateDto plan)
+        {
+            if (plan == null)
+            {
+                _logger.LogError("EmployeeForUpdateDto object sent from client is null.");
+                return BadRequest("EmployeeForUpdateDto object is null");
+            }
+            var sklad = _repository.Sklad.GetSklad(IDSklad, trackChanges: false);
+            if (sklad == null)
+            {
+                _logger.LogInfo($"Sklad1 with id: {IDSklad} doesn't exist in the database.");
+                return NotFound();
+            }
+            var sklad2 = _repository.Sklad.GetSklad(IDSklad2, trackChanges: false);
+            if (sklad2 == null)
+            {
+                _logger.LogInfo($"Sklad2 with id: {IDSklad2} doesn't exist in the database.");
+                return NotFound();
+            }
+            var product = _repository.Product.GetProducts(productId, trackChanges: false);
+            if (product == null)
+            {
+                _logger.LogInfo($"Product with id: {productId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var planEntity = _repository.Plan.GetPlan(productId, id,
+           trackChanges:
+            true);
+            if (planEntity == null)
+            {
+                _logger.LogInfo($"Plan with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+            _mapper.Map(product, planEntity);
+            _repository.Save();
+            return NoContent();
+        }
+
+        [HttpPatch("{id}")]
+        public IActionResult PatchUpdatePlan(Guid IDSklad, Guid IDSklad2, Guid productId, Guid id, [FromBody] JsonPatchDocument<PlanForUpdateDto> plan)
+        {
+            if (plan == null)
+            {
+                _logger.LogError("PlanForUpdateDto object sent from client is null.");
+                return BadRequest("PlanForUpdateDto object is null");
+            }
+            var sklad = _repository.Sklad.GetSklad(IDSklad, trackChanges: false);
+            if (sklad == null)
+            {
+                _logger.LogInfo($"Sklad1 with id: {IDSklad} doesn't exist in the database.");
+                return NotFound();
+            }
+            var sklad2 = _repository.Sklad.GetSklad(IDSklad2, trackChanges: false);
+            if (sklad2 == null)
+            {
+                _logger.LogInfo($"Sklad2 with id: {IDSklad2} doesn't exist in the database.");
+                return NotFound();
+            }
+            var product = _repository.Product.GetProducts(productId, trackChanges: false);
+            if (product == null)
+            {
+                _logger.LogInfo($"Product with id: {productId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var planEntity = _repository.Plan.GetPlan(productId, id, true);
+            if (planEntity == null)
+            {
+                _logger.LogInfo($"Plan with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+            var planToPatch = _mapper.Map<PlanForUpdateDto>(planEntity);
+            plan.ApplyTo(planToPatch);
+            _mapper.Map(planToPatch, planEntity);
+            _repository.Save();
+            return NoContent();
+        }
+
+        //[HttpDelete("{id}")]
+        //public IActionResult DeletePlan(Guid id)
+        //{
+        //    var plan = _repository.Plan.GetPlan(id, trackChanges: false);
+        //    if (plan == null)
+        //    {
+        //        _logger.LogInfo($"Company with id: {id} doesn't exist in the database.");
+        //        return NotFound();
+        //    }
+        //    _repository.Plan.DeletePlan(plan);
+        //    _repository.Save();
+        //    return NoContent();
+        //}
 
         //[HttpGet("{id}")]
         //public IActionResult GetPlan(Guid id)

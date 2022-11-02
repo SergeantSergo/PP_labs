@@ -14,5 +14,7 @@ namespace Contracts
         Plan GetPlan(Guid planId, Guid id ,bool trackChanges);
         void CreatePlan(Guid IDSklad, Guid IDSklad2, Guid productId, Plan plan);
 
+        void DeletePlan(Plan plan);
+
     }
 }

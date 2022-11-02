@@ -24,5 +24,10 @@ namespace Repository
             FindByCondition(p => p.Id.Equals(skladId), trackChanges).SingleOrDefault();
 
         public void CreateSklad(Sklad sklad) => Create(sklad);
+
+        public void DeleteSklad(Sklad sklad)
+        {
+            Delete(sklad);
+        }
     }
 }

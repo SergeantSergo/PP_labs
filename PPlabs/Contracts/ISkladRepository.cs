@@ -13,5 +13,7 @@ namespace Contracts
 
         Sklad GetSklad(Guid skladId, bool trackChanges);
         void CreateSklad(Sklad sklad);
+
+        void DeleteSklad(Sklad sklad);
     }
 }

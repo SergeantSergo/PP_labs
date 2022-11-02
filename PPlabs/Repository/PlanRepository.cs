@@ -27,6 +27,11 @@ namespace Repository
             plan.Product = productId;
             Create(plan);
         }
+        public void DeletePlan(Plan plan)
+        {
+            Delete(plan);
+        }
+
         //public IEnumerable<Plan> GetAllPlans(bool trackChanges) => FindAll(trackChanges)
         //.OrderBy(c => c.Id)
         //.ToList();

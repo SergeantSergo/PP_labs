@@ -15,5 +15,6 @@ namespace Contracts
         //void CreateProduct(Guid IDSklad, Product product);
         Product GetProduct(Guid IDSklad, Guid id, bool trackChanges);
         void CreateProductForSklad(Guid IDSklad, Product product);
+        void DeleteProduct(Product product);
     }
 }

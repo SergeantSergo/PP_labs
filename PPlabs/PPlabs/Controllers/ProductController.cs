@@ -82,6 +82,54 @@ namespace PPlabs.Controllers
             var product = _mapper.Map<ProductDto>(productDb);
             return Ok(product);
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteProductForSklad(Guid IDSklad, Guid id)
+        {
+            var sklad = _repository.Sklad.GetSklad(IDSklad, trackChanges: false);
+            if (sklad == null)
+            {
+                _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
+            return NotFound();
+            }
+            var productForSklad = _repository.Product.GetProduct(IDSklad, id, trackChanges: false);
+            if (productForSklad == null)
+            {
+                _logger.LogInfo($"Employee with id: {id} doesn't exist in the database.");
+            return NotFound();
+            }
+            _repository.Product.DeleteProduct(productForSklad);
+            _repository.Save();
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateProductForSklad(Guid IDSklad, Guid id, [FromBody] ProductForUpdateDto product)
+        {
+            if (product == null)
+            {
+                _logger.LogError("EmployeeForUpdateDto object sent from client is null.");
+            return BadRequest("EmployeeForUpdateDto object is null");
+            }
+            var sklad = _repository.Sklad.GetSklad(IDSklad, trackChanges: false);
+            if (sklad == null)
+            {
+                _logger.LogInfo($"Sklad with id: {IDSklad} doesn't exist in the database.");
+                return NotFound();
+            }
+            var productEntity = _repository.Product.GetProduct(IDSklad, id,
+           trackChanges:
+            true);
+            if (productEntity == null)
+            {
+                _logger.LogInfo($"Employee with id: {id} doesn't exist in the database.");
+            return NotFound();
+            }
+            _mapper.Map(product, productEntity);
+            _repository.Save();
+            return NoContent();
+        }
+
         //не работает
 
 
@@ -132,7 +180,7 @@ namespace PPlabs.Controllers
         //    var employee = _mapper.Map<EmployeeDto>(employeeDb);
         //    return Ok(employee);
         //}
-        
+
         //[HttpGet("{id}")]
         //public IActionResult GetProduct(Guid id)
         //{
