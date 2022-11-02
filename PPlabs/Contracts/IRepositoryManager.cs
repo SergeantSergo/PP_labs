@@ -13,7 +13,7 @@ namespace Contracts
         ISkladRepository Sklad { get; }
         IProductRepository Product { get; }
         IPlanRepository Plan { get; }
-
+        Task SaveAsync();
         void Save();
     }
 }

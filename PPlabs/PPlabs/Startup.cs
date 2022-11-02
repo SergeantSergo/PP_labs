@@ -3,6 +3,7 @@ using NLog;
 using Microsoft.AspNetCore.HttpOverrides;
 using Contracts;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
 
 public class Startup
 {
@@ -17,6 +18,10 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+        services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.SuppressModelStateInvalidFilter = true;
+        });
         services.AddAutoMapper(typeof(Startup));
         services.ConfigureCors();
         services.ConfigureIISIntegration();
