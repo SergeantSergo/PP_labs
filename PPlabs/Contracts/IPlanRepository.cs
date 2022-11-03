@@ -9,12 +9,12 @@ namespace Contracts
 {
     public interface IPlanRepository
     {
-        IEnumerable<Plan> GetPlans(Guid IDSklad, bool trackChanges);
-  
-        Plan GetPlan(Guid planId, Guid id ,bool trackChanges);
+        Task<IEnumerable<Plan>> GetPlansAsync(Guid productId, bool trackChanges);
+
+        Task<Plan> GetPlanAsync(Guid IDSklad, Guid id ,bool trackChanges);
         void CreatePlan(Guid IDSklad, Guid IDSklad2, Guid productId, Plan plan);
 
         void DeletePlan(Plan plan);
-
+        
     }
 }

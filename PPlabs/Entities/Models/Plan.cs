@@ -18,13 +18,19 @@ namespace Entities.Models
         [Required]
         [ForeignKey(nameof(Sklad2))]
         public Guid Sklad2 { get; set; }
-        [Required]
+
         [ForeignKey(nameof(Product))]
         public Guid Product { get; set; }
+
+        [Required(ErrorMessage = "Plan name is a required field.")]
+        [MaxLength(60, ErrorMessage = "Maximum length for the Name is 60 characters.")]
+        public string Name { get; set; }
+
         [Required(ErrorMessage = "Company address is a required field.")]
         [MaxLength(60, ErrorMessage = "Maximum length for rhe Address is 60 characte")]
+
         public int Kolvo { get; set; }
         public long Date { get; set; }
-        //
+        
     }
 }

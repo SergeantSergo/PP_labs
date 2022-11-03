@@ -13,6 +13,7 @@ namespace Entities.DataTransferObjects
         public Guid Sklad1 { get; set; }
         public Guid Sklad2 { get; set; }
         public Guid Product { get; set; }
+        public string Name { get; set; }
         public int Kolvo { get; set; }
         public long Date { get; set; }
 

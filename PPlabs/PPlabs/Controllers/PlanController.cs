@@ -22,162 +22,162 @@ namespace PPlabs.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetPlanForProduct(Guid IDSklad, Guid productId)
+        {
+            var sklad = await _repository.Sklad.GetSkladAsync(IDSklad, trackChanges: false);
+            if (sklad == null)
+            {
+                _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
+                return NotFound();
+            }
+            var plan = await _repository.Product.GetProductAsync(productId, trackChanges: false);
+            if (plan == null)
+            {
+                _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
+                return NotFound();
+            }
 
-        //[HttpGet]
-        //public IActionResult GetPlanForProduct(Guid IDSklad, Guid productId)
-        //{
-        //    var sklad = _repository.Sklad.GetSklad(IDSklad, trackChanges: false);
-        //    if (sklad == null)
-        //    {
-        //        _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
-        //        return NotFound();
-        //    }
-        //    var plan = _repository.Product.GetProducts(productId, trackChanges: false);
-        //    if (plan == null)
-        //    {
-        //        _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
-        //        return NotFound();
-        //    }
+            var plansFromDb = await _repository.Plan.GetPlansAsync(productId, false);
+            var plansDto = _mapper.Map<IEnumerable<PlanDto>>(plansFromDb);
+            return Ok(plansDto);
+        }
+        
 
-        //    var plansFromDb = _repository.Plan.GetPlans(productId,  false);
-        //    var plansDto = _mapper.Map<IEnumerable<PlanDto>>(plansFromDb);
-        //    return Ok(plansFromDb);
-        //}
+        [HttpGet("{id}", Name = "GetPlan")]
+        public async Task<IActionResult> GetPlansForProduct(Guid IDSklad, Guid productId, Guid id)
+        {
+            var sklad = await _repository.Sklad.GetSkladAsync(IDSklad, trackChanges: false);
+            if (sklad == null)
+            {
+                _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
+                return NotFound();
+            }
+            var product = await _repository.Product.GetProductAsync(productId, trackChanges: false);
+            if (product == null)
+            {
+                _logger.LogInfo($"Company with id: {productId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var planDb = await _repository.Plan.GetPlanAsync(productId, id, false);
+            if (planDb == null)
+            {
+                _logger.LogInfo($"Ticket with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+            var plan = _mapper.Map<PlanDto>(planDb);
+            return Ok(plan);
+        }
 
-        //[HttpGet("{id}", Name = "GetPlan")]
-        //public IActionResult GetPlan(Guid IDSklad, Guid productId, Guid id)
-        //{
-        //    var sklad = _repository.Sklad.GetSklad(IDSklad, trackChanges: false);
-        //    if (sklad == null)
-        //    {
-        //        _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
-        //        return NotFound();
-        //    }
-        //    var product = _repository.Product.GetProducts(productId, trackChanges: false);
-        //    if (product == null)
-        //    {
-        //        _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
-        //        return NotFound();
-        //    }
-        //    var planDb = _repository.Plan.GetPlan(productId, id, false);
-        //    if (planDb == null)
-        //    {
-        //        _logger.LogInfo($"Ticket with id: {id} doesn't exist in the database.");
-        //        return NotFound();
-        //    }
-        //    var plan = _mapper.Map<PlanDto>(planDb);
-        //    return Ok(plan);
-        //}
-
-        //[HttpPost]
-        //public IActionResult CreatePlan(Guid IDSklad, Guid productId, Guid IDSklad2, [FromBody] PlanForCreationDto plan)
-        //{
-        //    if (plan == null)
-        //    {
-        //        _logger.LogError("TicketCreationDto object sent from client is null.");
-        //        return BadRequest("TicketCreationDto object is null");
-        //    }
-        //    var sklad = _repository.Sklad.GetSklad(IDSklad, trackChanges: false);
-        //    if (sklad == null)
-        //    {
-        //        _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
-        //        return NotFound();
-        //    }
-        //    var sklad2 = _repository.Sklad.GetSklad(IDSklad2, trackChanges: false);
-        //    if (sklad2 == null)
-        //    {
-        //        _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
-        //        return NotFound();
-        //    }
-        //    var product = _repository.Product.GetProducts(productId, trackChanges: false);
-        //    if (product == null)
-        //    {
-        //        _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
-        //        return NotFound();
-        //    }
-        //    var planEntity = _mapper.Map<Plan>(plan);
-        //    _repository.Plan.CreatePlan(IDSklad, IDSklad2, productId, planEntity);
-        //    _repository.Save();
-        //    var planReturn = _mapper.Map<PlanDto>(planEntity);
-        //    return CreatedAtRoute("GetPlan", new
-        //    {
-        //        IDSklad,
-        //        IDSklad2,
-        //        productId,
-        //        planReturn.Id
-        //    }, planReturn);
-        //}
+        [HttpPost]
+        public async Task<IActionResult> CreatePlanForProduct(Guid IDSklad, Guid productId, Guid IDSklad2, [FromBody] PlanForCreationDto plan)
+        {
+            if (plan == null)
+            {
+                _logger.LogError("TicketCreationDto object sent from client is null.");
+                return BadRequest("TicketCreationDto object is null");
+            }
+            var sklad = await _repository.Sklad.GetSkladAsync(IDSklad, trackChanges: false);
+            if (sklad == null)
+            {
+                _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
+                return NotFound();
+            }
+            var sklad2 = await _repository.Sklad.GetSkladAsync(IDSklad2, trackChanges: false);
+            if (sklad2 == null)
+            {
+                _logger.LogInfo($"Company with id: {IDSklad2} doesn't exist in the database.");
+                return NotFound();
+            }
+            var product = await _repository.Product.GetProductAsync(productId, trackChanges: false);
+            if (product == null)
+            {
+                _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
+                return NotFound();
+            }
+            var planEntity = _mapper.Map<Plan>(plan);
+            _repository.Plan.CreatePlan(IDSklad, IDSklad2, productId, planEntity);
+            await _repository.SaveAsync();
+            var planReturn = _mapper.Map<PlanDto>(planEntity);
+            return CreatedAtRoute("GetPlan", new
+            {
+                IDSklad,
+                IDSklad2,
+                productId,
+               Id = planReturn.Id
+            }, planReturn);
+        }
 
         //[HttpDelete("{id}")]
-        //public IActionResult DeletePlanForSklad(Guid IDSklad, Guid IDSklad2, Guid productId, Guid id)
+        //public async Task<IActionResult> DeletePlanForProduct(Guid IDSklad, Guid IDSklad2, Guid productId, Guid id)
         //{
-        //    var sklad = _repository.Sklad.GetSklad(IDSklad, trackChanges: false);
+        //    var sklad = await _repository.Sklad.GetSkladAsync(IDSklad, trackChanges: false);
         //    if (sklad == null)
         //    {
         //        _logger.LogInfo($"Sklad with id: {IDSklad} doesn't exist in the database.");
         //        return NotFound();
         //    }
-        //    var sklad2 = _repository.Sklad.GetSklad(IDSklad2, trackChanges: false);
+        //    var sklad2 = await _repository.Sklad.GetSkladAsync(IDSklad2, trackChanges: false);
         //    if (sklad2 == null)
         //    {
         //        _logger.LogInfo($"Company with id: {IDSklad2} doesn't exist in the database.");
         //        return NotFound();
         //    }
-        //    var product = _repository.Product.GetProducts(productId, trackChanges: false);
+        //    var product = await _repository.Product.GetProductAsync(productId, trackChanges: false);
         //    if (product == null)
         //    {
         //        _logger.LogInfo($"Company with id: {productId} doesn't exist in the database.");
         //        return NotFound();
         //    }
-        //    var planForproduct = _repository.Plan.GetPlan(productId,  id, trackChanges: false);
+        //    var planForproduct = _repository.Plan.GetPlanAsync(productId,  id,  false);
         //    if (planForproduct == null)
         //    {
         //        _logger.LogInfo($"Plan with id: {id} doesn't exist in the database.");
         //        return NotFound();
         //    }
-        //    _repository.Plan.DeletePlan(planForproduct);
-        //    _repository.Save();
+        //     _repository.Plan.DeletePlan(planForproduct);
+        //    await _repository.SaveAsync();
         //    return NoContent();
         //}
 
-        //[HttpPut("{id}")]
-        //public IActionResult UpdatePlanForProduct(Guid IDSklad, Guid IDSklad2, Guid productId, Guid id, [FromBody] PlanForUpdateDto plan)
-        //{
-        //    if (plan == null)
-        //    {
-        //        _logger.LogError("EmployeeForUpdateDto object sent from client is null.");
-        //        return BadRequest("EmployeeForUpdateDto object is null");
-        //    }
-        //    var sklad = _repository.Sklad.GetSklad(IDSklad, trackChanges: false);
-        //    if (sklad == null)
-        //    {
-        //        _logger.LogInfo($"Sklad1 with id: {IDSklad} doesn't exist in the database.");
-        //        return NotFound();
-        //    }
-        //    var sklad2 = _repository.Sklad.GetSklad(IDSklad2, trackChanges: false);
-        //    if (sklad2 == null)
-        //    {
-        //        _logger.LogInfo($"Sklad2 with id: {IDSklad2} doesn't exist in the database.");
-        //        return NotFound();
-        //    }
-        //    var product = _repository.Product.GetProducts(productId, trackChanges: false);
-        //    if (product == null)
-        //    {
-        //        _logger.LogInfo($"Product with id: {productId} doesn't exist in the database.");
-        //        return NotFound();
-        //    }
-        //    var planEntity = _repository.Plan.GetPlan(productId, id,
-        //   trackChanges:
-        //    true);
-        //    if (planEntity == null)
-        //    {
-        //        _logger.LogInfo($"Plan with id: {id} doesn't exist in the database.");
-        //        return NotFound();
-        //    }
-        //    _mapper.Map(product, planEntity);
-        //    _repository.Save();
-        //    return NoContent();
-        //}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdatePlanForProduct(Guid IDSklad, Guid IDSklad2, Guid productId, Guid id, [FromBody] PlanForUpdateDto plan)
+        {
+            if (plan == null)
+            {
+                _logger.LogError("EmployeeForUpdateDto object sent from client is null.");
+                return BadRequest("EmployeeForUpdateDto object is null");
+            }
+            var sklad = await _repository.Sklad.GetSkladAsync(IDSklad, trackChanges: false);
+            if (sklad == null)
+            {
+                _logger.LogInfo($"Sklad1 with id: {IDSklad} doesn't exist in the database.");
+                return NotFound();
+            }
+            var sklad2 = await _repository.Sklad.GetSkladAsync(IDSklad2, trackChanges: false);
+            if (sklad2 == null)
+            {
+                _logger.LogInfo($"Sklad2 with id: {IDSklad2} doesn't exist in the database.");
+                return NotFound();
+            }
+            var product = await _repository.Product.GetProductAsync(productId, trackChanges: false);
+            if (product == null)
+            {
+                _logger.LogInfo($"Product with id: {productId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var planEntity = _repository.Plan.GetPlanAsync(productId, id,
+           trackChanges:
+            true);
+            if (planEntity == null)
+            {
+                _logger.LogInfo($"Plan with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+            _mapper.Map(product, planEntity);
+            await _repository.SaveAsync();
+            return NoContent();
+        }
 
         //[HttpPatch("{id}")]
         //public IActionResult PatchUpdatePlan(Guid IDSklad, Guid IDSklad2, Guid productId, Guid id, [FromBody] JsonPatchDocument<PlanForUpdateDto> plan)

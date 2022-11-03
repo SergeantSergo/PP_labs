@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Contracts;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
@@ -15,10 +16,19 @@ namespace Repository
        : base(repositoryContext)
         {
         }
-        public IEnumerable<Plan> GetPlans(Guid productid, bool trackChanges) =>
-            FindByCondition(e => e.Product.Equals(productid), trackChanges).OrderBy(e => e.Id);
-        public Plan GetPlan(Guid productid, Guid id, bool trackChanges) =>
-            FindByCondition(e => e.Product.Equals(productid) && e.Id.Equals(id), trackChanges).SingleOrDefault();
+        //public IEnumerable<Plan> GetPlans(Guid productid, bool trackChanges) =>
+        //    FindByCondition(e => e.Product.Equals(productid), trackChanges).OrderBy(e => e.Id);
+        //public Plan GetPlan(Guid productid, Guid id, bool trackChanges) =>
+        //    FindByCondition(e => e.Product.Equals(productid) && e.Id.Equals(id), trackChanges).SingleOrDefault();
+
+        public async Task<Plan> GetPlanAsync(Guid productId, Guid id, bool trackChanges) =>
+            await FindByCondition
+            (
+                e => e.Product.Equals(productId) && e.Id.Equals(id), trackChanges
+            ).SingleOrDefaultAsync();
+
+        public async Task<IEnumerable<Plan>> GetPlansAsync(Guid IDSklad, bool trackChanges) =>
+            await FindByCondition(e => e.Sklad1.Equals(IDSklad), trackChanges).OrderBy(c => c.Name).ToListAsync();
 
         public void CreatePlan(Guid IDSklad,Guid IDSklad2, Guid productId, Plan plan)
         {
@@ -27,15 +37,11 @@ namespace Repository
             plan.Product = productId;
             Create(plan);
         }
-        public void DeletePlan(Plan plan)
+        public void DeletePlan(Plan plan) => Delete(plan);
+
+        public void DeletePlan(Task<Plan> planForproduct)
         {
-            Delete(plan);
+            throw new NotImplementedException();
         }
-
-        //public IEnumerable<Plan> GetAllPlans(bool trackChanges) => FindAll(trackChanges)
-        //.OrderBy(c => c.Id)
-        //.ToList();
-
-        //public Plan GetPlan(Guid planId, bool trackChanges) => FindByCondition(c => c.Id.Equals(planId), trackChanges).SingleOrDefault();
     }
 }
