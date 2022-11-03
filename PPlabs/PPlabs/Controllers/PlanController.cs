@@ -49,23 +49,23 @@ namespace PPlabs.Controllers
             var sklad = _repository.Sklad.GetSklad(IDSklad, trackChanges: false);
             if (sklad == null)
             {
-                _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
+                _logger.LogInfo($"Sklad with id: {IDSklad} doesn't exist in the database.");
                 return NotFound();
             }
             var product = _repository.Product.GetProducts(productId, trackChanges: false);
             if (product == null)
             {
-                _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
+                _logger.LogInfo($"Product with id: {productId} doesn't exist in the database.");
                 return NotFound();
             }
-            var ticketDb = _repository.Plan.GetPlan(productId, id, false);
-            if (ticketDb == null)
+            var planDb = _repository.Plan.GetPlan(productId, id, false);
+            if (planDb == null)
             {
-                _logger.LogInfo($"Ticket with id: {id} doesn't exist in the database.");
+                _logger.LogInfo($"Plan with id: {id} doesn't exist in the database.");
                 return NotFound();
             }
-            var ticket = _mapper.Map<PlanDto>(ticketDb);
-            return Ok(ticket);
+            var plan = _mapper.Map<PlanDto>(planDb);
+            return Ok(plan);
         }
 
         [HttpPost]
@@ -91,7 +91,7 @@ namespace PPlabs.Controllers
             var product = _repository.Product.GetProducts(productId, trackChanges: false);
             if (product == null)
             {
-                _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
+                _logger.LogInfo($"product with id: {IDSklad} doesn't exist in the database.");
                 return NotFound();
             }
             var planEntity = _mapper.Map<Plan>(plan);
