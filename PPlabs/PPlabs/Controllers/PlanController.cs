@@ -41,7 +41,7 @@ namespace PPlabs.Controllers
 
             var plansFromDb = _repository.Plan.GetPlans(productId,  false);
             var plansDto = _mapper.Map<IEnumerable<PlanDto>>(plansFromDb);
-            return Ok(plansFromDb);
+            return Ok(plansDto);
         }
 
         [HttpGet("{id}", Name = "GetPlan")]
@@ -62,7 +62,7 @@ namespace PPlabs.Controllers
             var planDb = _repository.Plan.GetPlan(productId, id, false);
             if (planDb == null)
             {
-                _logger.LogInfo($"Ticket with id: {id} doesn't exist in the database.");
+                _logger.LogInfo($"Plan with id: {id} doesn't exist in the database.");
                 return NotFound();
             }
             var plan = _mapper.Map<PlanDto>(planDb);
@@ -74,19 +74,19 @@ namespace PPlabs.Controllers
         {
             if (plan == null)
             {
-                _logger.LogError("TicketCreationDto object sent from client is null.");
-                return BadRequest("TicketCreationDto object is null");
+                _logger.LogError("planCreationDto object sent from client is null.");
+                return BadRequest("planCreationDto object is null");
             }
             var sklad = _repository.Sklad.GetSklad(IDSklad, trackChanges: false);
             if (sklad == null)
             {
-                _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
+                _logger.LogInfo($"sklad1 with id: {IDSklad} doesn't exist in the database.");
                 return NotFound();
             }
             var sklad2 = _repository.Sklad.GetSklad(IDSklad2, trackChanges: false);
             if (sklad2 == null)
             {
-                _logger.LogInfo($"Company with id: {IDSklad} doesn't exist in the database.");
+                _logger.LogInfo($"sklad22 with id: {IDSklad} doesn't exist in the database.");
                 return NotFound();
             }
             var product = _repository.Product.GetProducts(productId, trackChanges: false);
