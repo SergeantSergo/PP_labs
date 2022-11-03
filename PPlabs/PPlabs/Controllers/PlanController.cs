@@ -40,7 +40,7 @@ namespace PPlabs.Controllers
 
             var plansFromDb = _repository.Plan.GetPlans(productId,  false);
             var plansDto = _mapper.Map<IEnumerable<PlanDto>>(plansFromDb);
-            return Ok(plansFromDb);
+            return Ok(plansDto);
         }
 
         [HttpGet("{id}", Name = "GetPlan")]
