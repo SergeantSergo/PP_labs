@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Entities.DataTransferObjects
 {
-    public class SkladForUpdateDto
+    public class SkladForUpdateDto : SkladManipulationDto
     {
         public string Name { get; set; }
-        public IEnumerable<ProductForCreationDto> Products { get; set; }
+       // public IEnumerable<ProductForCreationDto> Products { get; set; }
     }
 }
     

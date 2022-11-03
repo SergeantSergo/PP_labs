@@ -9,9 +9,11 @@ namespace Contracts
 {
     public interface ISkladRepository
     {
-        IEnumerable<Sklad> GetAllSklads(bool trackChanges);
+        Task<IEnumerable<Sklad>> GetAllSkladsAsync(bool trackChanges);
+        Task<Sklad> GetSkladAsync(Guid IDSкlad, bool trackChanges);
 
-        Sklad GetSklad(Guid skladId, bool trackChanges);
+        Task<IEnumerable<Sklad>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges);
+        //Sklad GetSklad(Guid skladId, bool trackChanges);
         void CreateSklad(Sklad sklad);
 
         void DeleteSklad(Sklad sklad);

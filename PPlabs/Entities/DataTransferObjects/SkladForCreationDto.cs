@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entities.DataTransferObjects
 {
-    public class SkladForCreationDto
+    public class SkladForCreationDto : SkladManipulationDto
     {
         public string SkladName { get; set; }
     }

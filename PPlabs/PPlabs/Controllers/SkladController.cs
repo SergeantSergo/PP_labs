@@ -4,6 +4,8 @@ using Entities.DataTransferObjects;
 using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using PPlabs.ModelBinders;
 
 namespace PPlabs.Controllers
 {
@@ -20,25 +22,23 @@ namespace PPlabs.Controllers
             _logger = logger;
             _mapper = mapper;
         }
+        
+        
         [HttpGet]
-        public IActionResult GetSklads()
+        public async Task<IActionResult> GetSklads()
         {
-            var sklads = _repository.Sklad.GetAllSklads(false);
-            var skladsDto = sklads.Select(c => new SkladDto
-            {
-                Id = c.Id,
-                SkladName = c.SkladName,
-            }).ToList();
-            return Ok(skladsDto);
+            var sklads = await _repository.Sklad.GetAllSkladsAsync(false);
+            var skladDto = _mapper.Map<IEnumerable<SkladDto>>(sklads);
+            return Ok(skladDto);
         }
 
         [HttpGet("{id}", Name = "SkladById")]
-        public IActionResult GetSklad(Guid id)
+        public async Task<IActionResult> GetSklad(Guid id)
         {
-            var sklad = _repository.Sklad.GetSklad(id, trackChanges: false);
+            var sklad = await _repository.Sklad.GetSkladAsync(id, false);
             if (sklad == null)
             {
-                _logger.LogInfo($"Sklad with id: {id} doesn't exist in the database.");
+                _logger.LogInfo($"Company with id: {id} doesn't exist in the database.");
                 return NotFound();
             }
             else
@@ -47,30 +47,83 @@ namespace PPlabs.Controllers
                 return Ok(skladDto);
             }
         }
+       
 
         [HttpPost]
-        public IActionResult CreateSklad([FromBody] SkladForCreationDto sklad)
+        public async Task<IActionResult> CreateSklad([FromBody] SkladForCreationDto sklad)
         {
             if (sklad == null)
             {
-                _logger.LogError("SkladForCreationDto object sent from client is null.");
-            return BadRequest("SkladForCreationDto object is null");
+                _logger.LogError("CompanyForCreationDto object sent from client is null.");
+                return BadRequest("CompanyForCreationDto object is null");
             }
             var skladEntity = _mapper.Map<Sklad>(sklad);
             _repository.Sklad.CreateSklad(skladEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
             var skladToReturn = _mapper.Map<SkladDto>(skladEntity);
-            return CreatedAtRoute("SkladById", new { id = skladToReturn.Id },
-            skladToReturn);
+            return CreatedAtRoute("SkladById", new { id = skladToReturn.Id }, skladToReturn);
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult DeleteSklad(Guid id)
+        [HttpGet("collection/({ids})", Name = "SkladCollection")]
+        public async Task<IActionResult> GetSkladCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
         {
-            var sklad = _repository.Sklad.GetSklad(id, trackChanges: false);
+            if (ids == null)
+            {
+                _logger.LogError("Parameter ids is null");
+                return BadRequest("Parameter ids is null");
+            }
+            var skladEntities = await _repository.Sklad.GetByIdsAsync(ids, false);
+            if (ids.Count() != skladEntities.Count())
+            {
+                _logger.LogError("Some ids are not valid in a collection");
+                return NotFound();
+            }
+            var skladsToReturn =
+            _mapper.Map<IEnumerable<SkladDto>>(skladEntities);
+            return Ok(skladsToReturn);
+        }
+        [HttpPost("collection")]
+        public async Task<IActionResult> CreateSkladCollection([FromBody] IEnumerable<SkladForCreationDto> skladCollection)
+        {
+            if (skladCollection == null)
+            {
+                _logger.LogError("Company collection sent from client is null.");
+                return BadRequest("Company collection is null");
+            }
+            var skladEntities = _mapper.Map<IEnumerable<Sklad>>(skladCollection);
+            foreach (var sklad in skladEntities)
+            {
+                _repository.Sklad.CreateSklad(sklad);
+            }
+            await _repository.SaveAsync();
+            var skladCollectionToReturn = _mapper.Map<IEnumerable<SkladDto>>(skladEntities);
+            var ids = string.Join(",", skladCollectionToReturn.Select(c => c.Id));
+            return CreatedAtRoute("CompanyCollection", new { ids }, skladCollectionToReturn);
+        }
+        //[HttpPost]
+        //public IActionResult CreateSklad([FromBody] SkladForCreationDto sklad)
+        //{
+        //    if (sklad == null)
+        //    {
+        //        _logger.LogError("SkladForCreationDto object sent from client is null.");
+        //    return BadRequest("SkladForCreationDto object is null");
+        //    }
+        //    var skladEntity = _mapper.Map<Sklad>(sklad);
+        //    _repository.Sklad.CreateSklad(skladEntity);
+        //    _repository.Save();
+        //    var skladToReturn = _mapper.Map<SkladDto>(skladEntity);
+        //    return CreatedAtRoute("SkladById", new { id = skladToReturn.Id },
+        //    skladToReturn);
+        //}
+
+        
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> CreateSkladCollection(Guid id)
+        {
+            var sklad = await _repository.Sklad.GetSkladAsync(id, false);
             if (sklad == null)
             {
-                _logger.LogInfo($"Company with id: {id} doesn't exist in the database.");
+                _logger.LogInfo($"Sklad with id: {id} doesn't exist in the database.");
                 return NotFound();
             }
             _repository.Sklad.DeleteSklad(sklad);
@@ -79,43 +132,24 @@ namespace PPlabs.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateSklad(Guid id, [FromBody] SkladForUpdateDto sklad)
+        public async Task<IActionResult> UpdateSklad(Guid id, [FromBody] SkladForUpdateDto sklad)
         {
             if (sklad == null)
             {
                 _logger.LogError("SkladForUpdateDto object sent from client is null.");
                 return BadRequest("SkladForUpdateDto object is null");
             }
-            var skladEntity = _repository.Sklad.GetSklad(id, trackChanges: true);
+            var skladEntity = await _repository.Sklad.GetSkladAsync(id, true);
             if (skladEntity == null)
             {
                 _logger.LogInfo($"Sklad with id: {id} doesn't exist in the database.");
                 return NotFound();
             }
             _mapper.Map(sklad, skladEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
             return NoContent();
         }
 
-        //[HttpGet("{id}", Name = "GetEmployeeForCompany")]
-        //public IActionResult GetProductForSklad(Guid companyId, Guid id)
-        //{
-        //    var company = _repository.Company.GetCompany(companyId, trackChanges: false);
-        //    if (company == null)
-        //    {
-        //        _logger.LogInfo($"Company with id: {companyId} doesn't exist in the database.");
-        //        return NotFound();
-        //    }
-        //    var employeeDb = _repository.Employee.GetEmployee(companyId, id,
-        //   trackChanges:
-        //    false);
-        //    if (employeeDb == null)
-        //    {
-        //        _logger.LogInfo($"Employee with id: {id} doesn't exist in the database.");
-        //        return NotFound();
-        //    }
-        //    var employee = _mapper.Map<EmployeeDto>(employeeDb);
-        //    return Ok(employee);
-        //}
+       
     }
 }
